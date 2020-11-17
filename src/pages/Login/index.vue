@@ -50,6 +50,13 @@
 </template>
 
 <script>
+// 登录逻辑的实现
+// 1：收集用户信息输入的username&password传递给后台
+// 2登录通过后，将后端返回的token存到本地
+// 3每次请求的时候，携带token
+// 4展示token效验正确的数据
+// 5效验不通过，跳转到登入页面
+
 export default {
   data() {
     // jsDoc
