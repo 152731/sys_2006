@@ -1,0 +1,5 @@
+/* 登录页面的表单输入框 */
+ /* 全局样式，为了防止影响别的输入框要添加父级类名 */
+.login-pages .el-input__inner{
+    width: 83% !important;
+  }
