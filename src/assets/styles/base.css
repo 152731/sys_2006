@@ -16,7 +16,7 @@ input{
     
     border:1px solid #ccc
 }
-html, body, #app, .home-page,.el-container{
+html, body, #app, .home,.el-container{
     height: 100%;
 }
 .el-form-item__label{

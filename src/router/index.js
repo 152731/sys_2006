@@ -2,8 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../pages/Login";
 
-Vue.use(VueRouter);
 
+Vue.use(VueRouter);
+ 
+// 引入所有的
+import allRoutes from "./allRoutes"
 const routes = [
   {
     path: "/login",
@@ -13,6 +16,7 @@ const routes = [
   {
     path: "/",
     name: "home",
+    children:allRoutes,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.

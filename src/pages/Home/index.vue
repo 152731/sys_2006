@@ -1,59 +1,36 @@
 <template>
   <div class="home">
     <!-- 侧边栏 -->
-    <el-container>
-      <el-aside width="200px">
-        <h1 class="logo"></h1>
-        <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group> -->
-        <el-menu
-          default-active="1-4-1"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          :collapse="isCollapse"
-        >
+        <el-container>
+          <el-aside width="200">
+            <el-menu  default-active="1-4-1"
+            class="el-menu-vertical-demo" 
+            :router="true"
+           :collapse="isCollapse">
+          
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span slot="title">导航一</span>
             </template>
-            <el-menu-item-group>
-              <span slot="title">分组一</span>
+            <el-menu-item-group> 
               <el-menu-item index="1-1">选项1</el-menu-item>
               <el-menu-item index="1-2">选项2</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
               <el-menu-item index="1-3">选项3</el-menu-item>
             </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-
-      <el-container>
+          </el-submenu> 
+          <!-- 二级菜单 -->
+           <el-menu-item index="/student">学员信息</el-menu-item>
+    </el-menu>
+    </el-aside>
+<el-container>
         <!-- 顶部栏 -->
         <el-header>
           <el-row type="flex" class="row-bg" justify="space-between">
             <el-col :span="6"
-              ><div class="grid-content bg-purple">图标</div></el-col
+              ><div class="grid-content bg-purple " > <i class="iconfont icon-shouqi"
+                   @click="isCollapse=!isCollapse"></i></div></el-col
             >
             <el-col :span="6"
               ><div class="grid-content bg-purple-light">宋小宝</div></el-col
@@ -64,8 +41,6 @@
                  :size="35" 
                   fit="fill"
                  :src="circleUrl">
-               
-
                 </el-avatar> -->
                 <span>欢迎您</span>
                 <span >{{userInfo.nickname}} </span>
@@ -76,50 +51,32 @@
         </el-header>
         <!-- 主区域 -->
         <el-main>
-          <ul>
-            <li v-for="item in arr">
-              {{ item.username }}
-            </li>
-          </ul>
+        <router-view></router-view>
         </el-main>
       </el-container>
-
-
-      
     </el-container>
-
-
-
   </div> 
 </template>  
 
 <script>
 import { getLoginLog } from "../../api/index";
-import { mapState} from "vuex"
+import { mapState } from "vuex";
 export default {
-  computed:{
-    ...mapState(['userInfo'])
+  computed: {
+    ...mapState(["userInfo"]),
   },
   data() {
     return {
-      isCollapse: true,
-      arr: [],
-      nickname:""
+      isCollapse: false,
     };
   },
- 
+
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+    quit() {
+      localStorage.removeItem("simon");
+      localStorage.removeItem("song");
+      this.$router.push("/login");
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    quit(){
-        localStorage.removeItem("simon")
-        localStorage.removeItem("song")
-        this.$router.push("/login")
-    }
   },
   mounted() {
     getLoginLog().then((res) => {
@@ -131,9 +88,8 @@ export default {
 </script>
 
 
-<style>
-
-.quit{
+<style lang="less" scoped>
+.quit {
   cursor: pointer;
   color: hotpink;
 }
@@ -188,10 +144,12 @@ export default {
   color: #333;
   text-align: center;
   line-height: 160px;
+ 
 }
 
 body > .el-container {
   margin-bottom: 40px;
+  height: 100%;
 }
 
 .el-container:nth-child(5) .el-aside,
@@ -201,6 +159,10 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 </style>
 

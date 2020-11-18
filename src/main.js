@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 // 全局样式css引入文件
 import "./assets/styles/el-reset.css"
 import './assets/styles/base.css'
+// iconfont图标
+import "./assets/iconFonts/iconfont.css"
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
