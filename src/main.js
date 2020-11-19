@@ -32,6 +32,8 @@ router.beforeEach((to,from,next)=>{
        }            
 })
 
+// 引入
+import "./utils/recursionRoutes"
 new Vue({
   router,
   store,
