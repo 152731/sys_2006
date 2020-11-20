@@ -3,22 +3,13 @@
 /** 
 *
 *@param {Array} allRoutes
-*@param  { Array} menuList
+*@param { Array} menuList
 
 */
 import allRoutes from '../router/allRoutes'
 const recursionRoutes=(allRoutes,menuList)=>{
-    let userRoutes=[
-        // {
-        //     path: 'studentProduct',
-        //     name: 'studentProduct',
-        //     component: studentProduct,
-        //     meta: {
-        //       name: '学员项目管理',
-        //       icon: 'iconfont icon-wode1',
-        //     },
-        //   },
-    ]
+    
+    let userRoutes=[]
     allRoutes.forEach(item=>{
         menuList.forEach(v=>{
             if(item.meta.name===v.name){

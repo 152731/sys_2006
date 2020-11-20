@@ -6,10 +6,15 @@ import router from "../router"
 
 import ElementUI from "element-ui"
 // 开发模式判断
+
+// import Nprogress from "nprogress"
 axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "/api" : "http://www.chst.vip"
 
 // 允许请求携带认证
 axios.defaults.withCredentials = true;
+
+//中断请求属性
+ export let CancelToken = axios.CancelToken;
 
 //创建请求拦截器，可以给每个请求都携带想要传递的内容
 axios.interceptors.request.use(config => {
@@ -28,15 +33,17 @@ axios.interceptors.request.use(config => {
 })
 // 响应拦截
 axios.interceptors.response.use(config=>{
+
     let {data} =config;
-    console.log(config);
     if(data.code=="1004"){
         // 在当前的后台api中1004代表的token效验失败
-        console.log("登录失效");
-        console.log(router);
         console.log(ElementUI);
         ElementUI.Message.error("登录信息失效重新登录")
+        // 清理token细节处理
+        localStorage.removeItem("simon")
        router.push("/login")
+        // 刷新页面
+      window.location.reload()
     }
     return config
 })
@@ -46,5 +53,6 @@ axios.create({
     timeout: 4000
 })
 export default axios
+ 
 
 

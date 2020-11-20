@@ -5,7 +5,7 @@ import Users from '../pages/Home/Users'
 import Welcome from '../pages/Home/Welcome'
 import StudentManager from '../pages/Home/StudentManager'
 import studentProduct from '../pages/Home/StudentManager/studentProduct'
-import studentDormitory from '../pages/Home/StudentManager/studentDormitory'
+import studentDormitory from '../pages/Home/StudentManager/studentDormitory.vue'
 import studentProfile from '../pages/Home/StudentManager/studentProfile'
 const allRoutes = [ 
   {

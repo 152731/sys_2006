@@ -2,14 +2,14 @@
   <div class="home">
     <!-- 侧边栏 -->
         <el-container>
-          <el-aside width="200">
-            <el-menu  default-active="1-4-1"
+           <el-aside width="200">
+            <el-menu  :default-active="$route.path"
             class="el-menu-vertical-demo" 
             :router="true"
            :collapse="isCollapse">
-          
-          <el-submenu index="1">
-            <template slot="title">
+           <qf-sub-menu :sideMenu="menuList" ></qf-sub-menu>
+          <!-- <el-submenu index="1">
+            <template slot="title"> 
               <i class="el-icon-location"></i>
               <span slot="title">导航一</span>
             </template>
@@ -20,36 +20,51 @@
               <el-menu-item index="1-3">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu> 
-          <!-- 二级菜单 -->
-           <el-menu-item index="/student">学员信息</el-menu-item>
+          
+           <el-menu-item index="/student">学员信息</el-menu-item> -->
     </el-menu>
+
+    
     </el-aside>
+
+
 <el-container>
         <!-- 顶部栏 -->
         <el-header>
           <el-row type="flex" class="row-bg" justify="space-between">
             <el-col :span="6"
-              ><div class="grid-content bg-purple " > <i class="iconfont icon-shouqi"
-                   @click="isCollapse=!isCollapse"></i></div></el-col
+              ><div class="grid-content bg-purple " > 
+                
+      
+       <i class="iconfont "v-if="!isCollapse"  @click="isCollapse=!isCollapse">&#xe504;</i>
+        <i class="iconfont icon-shouqi"  v-else="isCollapse" @click="isCollapse=!isCollapse"></i>
+                   
+                   </div></el-col
             >
             <el-col :span="6"
-              ><div class="grid-content bg-purple-light">宋小宝</div></el-col
+              ><div class="grid-content bg-purple-light size">宋小宝的后宫</div></el-col
             >
             <el-col :span="6"
               ><div class="grid-content bg-purple">
-                <!-- <el-avatar
-                 :size="35" 
-                  fit="fill"
-                 :src="circleUrl">
-                </el-avatar> -->
-                <span>欢迎您</span>
-                <span >{{userInfo.nickname}} </span>
+                  <el-avatar  :size="40" 
+                           fit="fit"
+                           src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605802576858&di=c977d22630ee68f82c347e68ed0da246&imgtype=0&src=http%3A%2F%2Fwww.faxingnet.com%2Fupimg%2Fallimg%2F190711%2F13-1ZG1101Gc39.jpg">
+                 </el-avatar>
+                <span class="welcome">欢迎您:</span>
+                <span class="fine" >{{userInfo.nickname}} </span>
                 <span class="quit" @click="quit">退出</span>
                 </div></el-col
             >
           </el-row>
         </el-header>
         <!-- 主区域 -->
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/Welcome' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{path:crumb.path}"   v-for="crumb in crumbs">
+
+             {{crumb.meta.name}}
+          </el-breadcrumb-item>
+        </el-breadcrumb>
         <el-main>
         <router-view></router-view>
         </el-main>
@@ -59,11 +74,13 @@
 </template>  
 
 <script>
-import { getLoginLog } from "../../api/index";
+// import { getLoginLog } from "../../api/index";
 import { mapState } from "vuex";
+import subMenu from '../../components/subMenu.vue';
 export default {
+  components: { subMenu },
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo",'menuList','crumbs']),
   },
   data() {
     return {
@@ -76,19 +93,42 @@ export default {
       localStorage.removeItem("simon");
       localStorage.removeItem("song");
       this.$router.push("/login");
+      // 刷新页面
+      window.location.reload()
     },
   },
   mounted() {
-    getLoginLog().then((res) => {
-      console.log(res.data.data);
-      this.arr = res.data.data;
-    });
+    // getLoginLog().then((res) => {
+    //   console.log(res.data.data);
+    // });
   },
 };
 </script>
 
 
 <style lang="less" scoped>
+.size{
+  font-size: 25px;
+}
+.welcome{
+  color: rgb(20, 220, 120);
+  padding: 0 5px;
+}
+.fine{
+  color: aqua;
+  font:10px;
+  text-decoration: underline;
+  text-decoration-color: red;
+  cursor: pointer;
+  padding: 0 10px;
+}
+.el-avatar{
+vertical-align: middle;
+
+}
+
+
+
 .quit {
   cursor: pointer;
   color: hotpink;
@@ -100,9 +140,10 @@ export default {
 .el-header,
 .el-footer {
   background-color: green;
-  color: #333;
-  text-align: center;
+  color:black;
+  text-align:left;
   line-height: 60px;
+  padding: 0 5px;
 }
 .el-row {
   /* margin-bottom: 20px; */
@@ -125,6 +166,7 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 20px;
+ 
 }
 .row-bg {
   /* padding: 10px 0; */
@@ -164,6 +206,20 @@ body > .el-container {
   width: 200px;
   min-height: 400px;
 }
+.el-breadcrumb{
+  line-height: 3;
+  background-color: hotpink;
+}
+.iconfont{
+   font-size: 25px;
+  text-align: left;
+  padding: 0 5px;
+}
+.icon-shouqi{
+  font-size: 25px;
+  text-align: left;
+}
+
 </style>
 
 

@@ -1,4 +1,3 @@
 <template>
-  <h1>学员管理</h1>
-  <router-view></router-view>
+  <h1>学员宿舍</h1>
 </template>
