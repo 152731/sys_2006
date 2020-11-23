@@ -7,15 +7,13 @@
 
 */
 import allRoutes from '../router/allRoutes'
-const recursionRoutes=(allRoutes,menuList)=>{
-    
-    let userRoutes=[]
-    allRoutes.forEach(item=>{
-        menuList.forEach(v=>{
-            if(item.meta.name===v.name){
-                // 保证v.children是个数组
-                if(v.children&&v.children.length>0){
-                     item.children=recursionRoutes(item.children,v.children)
+const recursionRoutes = (allRoutes, menuList) => {
+    let userRoutes = []
+    allRoutes.forEach(item => {
+        menuList.forEach(v => {
+            if (item.meta.name === v.name) {
+                if (v.children && v.children.length > 0) {
+                    item.children = recursionRoutes(item.children, v.children)
                 }
                 userRoutes.push(item)
             }
@@ -23,5 +21,4 @@ const recursionRoutes=(allRoutes,menuList)=>{
     })
     return userRoutes
 }
-
 export default recursionRoutes

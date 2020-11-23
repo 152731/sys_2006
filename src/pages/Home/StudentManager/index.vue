@@ -1,3 +1,6 @@
 <template>
-    <h1>学员管理111</h1>
+    <div>
+        
+        <router-view></router-view>
+    </div>
 </template>

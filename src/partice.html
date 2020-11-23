@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+       
+<div id="father">
+    <div id="son">我是块级元素</div>
+</div>
 </body>
+
 </html>
 <script>
-
-/* 
+    /* 
 1:实现深拷贝的方法 JSON方法实现
     我们一般用来深拷贝，其过程说白了 就是利用JSON.stringify 将js对象序列化（JSON字符串），
     再使用JSON.parse来反序列化(还原)js对象；序列化的作用是存储(对象本身存储的只是一个地址映射，
@@ -24,28 +29,86 @@
 6、如果对象中存在循环引用的情况也无法正确实现深拷贝；
 
 */
-// let deepClone=function(obj){
-//         let s1=JSON.stringify(obj);//将对象转换成json字符串
-//         let s2=JSON.parse(s1);//将转换而来的字符串转换成原生js
-//         return s2;
-//   }
-// let s3={
-//     simon:{
-//         age:20,
-//         class:11
-//     },
-//     song:{
-//         age:99,
-//         class:20
-//     }
-// }
-// let s4=deepClone(s3)
-// console.log(s3);//
-// console.log(s4);//
-//  利用for in实现深拷贝
-function deepClone(obj){
-    let result=typeof obj.splice==="function" ? []:{}
-    
-}
+    // let deepClone=function(obj){
+    //         let s1=JSON.stringify(obj);//将对象转换成json字符串
+    //         let s2=JSON.parse(s1);//将转换而来的字符串转换成原生js
+    //         return s2;
+    //   }
+    // let s3={
+    //     simon:{
+    //         age:20,
+    //         class:11
+    //     },
+    //     song:{
+    //         age:99,
+    //         class:20
+    //     }
+    // }
+    // let s4=deepClone(s3)
+    // console.log(s3);//
+    // console.log(s4);//
+    //  利用for in实现深拷贝
+    function deepClone(obj) {
+        // 判断是不是数组，是数组直接返回
+        let result = typeof obj.splice === "function" ? [] : {}
 
+        if (obj && typeof obj === "object") {
+            for (let key in obj) {
+                if (obj[key] && typeof obj[key] === "object") {
+                    result[key] = deepClone(obj[key])
+                } else {
+                    result[key] = obj[key]
+                }
+            }
+            return result
+        }
+        return obj
+    }
+    let arr = [1, 2, 3, 4, [1, 2, 3]]
+    let arr1 = deepClone(arr)
+    console.log(arr, arr1);
+
+    let obj1 = {
+        name: "宋小宝",
+        age: "10",
+        hobby: {
+            brother: "song",
+            father: "simon"
+        }
+    }
+    // let obj3=obj1
+    // obj3.hobby.brother="111"
+    console.log(obj1);
+    // console.log(obj3);
+
+
+    let obj2 = deepClone(obj1)
+    obj2.hobby.brother = "99999"
+    console.log(obj2);
+    
 </script>
+<style>
+    #father {
+        width: 500px;
+        height: 300px;
+        background-color: skyblue;
+        /* position: relative; */
+}
+ 
+    #son {
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        position: relative;
+        /* left:50%;
+       top:50%;
+       margin-left: -50px;
+       margin-top: -50px; */
+       left: 0;
+       right: 0;
+       top: 0;
+       bottom: 0;
+       margin:  auto;
+       
+}
+</style>

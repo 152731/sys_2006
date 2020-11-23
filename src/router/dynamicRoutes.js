@@ -3,11 +3,9 @@
 const dynamicRoutes=[
  {
     path: "/",
-    name: "home",
+    component:Home,
     children:[],
-    component:Home
-    // component: () =>
-    //   import(/* webpackChunkName: "about" */ "../pages/Home")
+      
   },
   {
     path:"*",

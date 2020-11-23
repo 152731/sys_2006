@@ -35,7 +35,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(config=>{
 
     let {data} =config;
-    if(data.code=="1004"){
+    if(data.code=="1004" || data.code=="10022"){
         // 在当前的后台api中1004代表的token效验失败
         console.log(ElementUI);
         ElementUI.Message.error("登录信息失效重新登录")

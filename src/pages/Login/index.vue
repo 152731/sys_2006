@@ -26,6 +26,7 @@
             type="password"
             v-model="loginForm.password"
             autocomplete="off"
+            @keydown.native.enter = "submitForm('loginForm')"
           ></el-input>
         </el-form-item>
 
@@ -124,7 +125,7 @@ export default {
                // 设置更改vuexstate["userInfo"]的值res.data.userInfo=payload
                 this.SET_USERINFO(res.data.userInfo)
 
-                this.$router.push("/")
+                this.$router.push("/Welcome")
                 
               } else {
                  this.$message.error('您登录的账号或者密码不正确，请重新登录');

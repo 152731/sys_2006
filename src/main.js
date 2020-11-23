@@ -24,7 +24,7 @@ import 'nprogress/nprogress.css'
 // next继续执行
 router.beforeEach((to, from, next) => {
   // 只要页面一打开就出现
-  NProgress.start()
+  // NProgress.set(.99)
   //用户登录之后，localStorage中有token
   let token = localStorage.getItem("simon") || null;
   //  判断之前要把cookie删除，因为没登录之前是没有token的
@@ -34,6 +34,7 @@ router.beforeEach((to, from, next) => {
       //  说明没有用户路由，就要触发action获取用户路由
       store.dispatch("FETCH_MENULIST")
         .then(() => {
+          console.log(to.path);
           next({
             path: to.path
           }) //这里要注意,next里面要传参数即要进入的页面路由信息，
@@ -59,7 +60,7 @@ router.afterEach((to, from) => {
   let crumblist = to.matched.slice(1)
   console.log(crumblist);
   store.commit('SET_CRUMBS', crumblist)
-  NProgress.done()
+  // NProgress.done()
 
 })
 // 引入

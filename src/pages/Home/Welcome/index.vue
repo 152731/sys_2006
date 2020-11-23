@@ -1,28 +1,53 @@
 <template>
   <div>
-   <h1>welcome</h1>
-   <button @click="send">发送请求</button>
-   <button @click="abort">发送中断请求</button>
+    <template>
+      <el-table :data="tableData" style="width: 100%">
+      
+        <el-table-column prop="username" label="登录账号" width="180">
+        </el-table-column>
+  
+        <el-table-column prop="lastLogin.ip" label="上次登录ip" width="180">
+        </el-table-column>
+        <el-table-column prop="lastLogin.loginTime" label="上次登录时间"> </el-table-column>
+        <el-table-column prop="nowLogin.ip" label="本次登陆ip"> </el-table-column>
+        <el-table-column prop="nowLogin.loginTime" label="本次登录时间"> </el-table-column>
+      </el-table>
+    </template>
   </div>
 </template>
 <script>
-import {getLoginLog} from "@/api"
-     export default{
-       methods:{
-         send(){
-           getLoginLog(this)
-           .then(res=>{
-              console.log(res);
-           })
-         },
-         abort(){
-           if(typeof this.cancel==="function")
-                 this.cancel()
-         }
-          
+import { getLoginLog,getClassList,getStudentList} from "@/api";
+export default {
+  data() {
+    return {
+      tableData: [],
+    };
+  },
+  mounted(){
+    getLoginLog()
+    .then(res=>{
+      // console.log(111);
+      // console.log(res);
+      this.tableData = res.data.data
+    })
+getClassList()
+.then(res=>{
+  // console.log(22);
+  // console.log(res.data.data);
+})
+getStudentList()
+.then(res=>{
+  // console.log(3333);
+  // console.log(res.data.data);
+})
 
-       },
-       
-     }
-    
+
+  }
+};
 </script>
+<style scoped>
+.el-main[data-v-1faf2446] {
+  line-height: 0;
+}
+
+</style>
