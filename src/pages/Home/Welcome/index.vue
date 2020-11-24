@@ -26,19 +26,10 @@ export default {
   mounted(){
     getLoginLog()
     .then(res=>{
-      // console.log(111);
-      // console.log(res);
       this.tableData = res.data.data
     })
-getClassList()
-.then(res=>{
-  // console.log(22);
-  // console.log(res.data.data);
-})
 getStudentList()
-.then(res=>{
-  // console.log(3333);
-  // console.log(res.data.data);
+.then(res=>{;
 })
 
 

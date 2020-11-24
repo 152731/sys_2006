@@ -60,3 +60,23 @@ html, body, #app, .home,.el-container{
     text-align: left;
     width: 100px;
 }
+/* 验证码样式 */
+.captcha {
+        width: 40%;
+        float: left;
+}
+.captcha-svg{
+    background-color: chartreuse;
+    /* height: 44px; */
+}
+.el-form-item__content{
+    font-size: 34px;
+}
+element.style{
+  height: 44px;
+    display: inline-block;
+}
+.el-table td {
+    border: 1px solid yellowgreen;
+     padding:20px 0 ;
+    }

@@ -6,7 +6,6 @@
       <h1 class="title">宋小宝的后宫</h1>
       <el-form
         :model="loginForm"
-        status-icon
         :rules="rules"
         ref="loginForm"
         label-width="100px"
@@ -26,8 +25,24 @@
             type="password"
             v-model="loginForm.password"
             autocomplete="off"
-            @keydown.native.enter = "submitForm('loginForm')"
+            @keydown.native.enter="submitForm('loginForm')"
           ></el-input>
+        </el-form-item>
+
+        <!-- 验证码输入框 -->
+        <el-form-item label="验证码" prop="captcha">
+          <el-input
+            class="captcha"
+            type="password"
+            v-model="loginForm.captcha"
+            autocomplete="off"
+            @keydown.native.enter="submitForm('loginForm')"
+          ></el-input>
+          <span
+            @click="refreshCaptcha"
+            class="captcha-svg"
+            v-html="captchaSvg"
+          ></span>
         </el-form-item>
 
         <el-form-item>
@@ -56,8 +71,8 @@
 // 3每次请求的时候，携带token到请求头authorization
 // 4展示token效验正确的数据
 // 5效验不通过，跳转到登入页面
-import { login } from "@/api";
-import {mapMutations} from "vuex"
+import { login, getCaptcha, verifyCaptcha, refreshCaptcha } from "@/api";
+import { mapMutations } from "vuex";
 export default {
   data() {
     // jsDoc
@@ -76,6 +91,7 @@ export default {
         callback();
       }
     };
+    // 效验用户密码
     var validataPassword = (rule, value, callback) => {
       if (!value) {
         callback("请输入密码");
@@ -83,25 +99,58 @@ export default {
         callback();
       }
     };
+    // 效验验证码
+    var validataCaptcha = (rule, value, callback) => {
+      if (!value || value.length !== 5) {
+        callback("请输正确的验证码");
+      } else {
+        callback();
+      }
+    };
     return {
+      captchaSvg: "", //从服务器获取下来的capchasvg
       loginForm: {
         username: "",
         password: "",
+        captcha: "",
       },
       rules: {
         username: [{ validator: validataUsername, trigger: "blur" }],
         password: [{ validator: validataPassword, trigger: "blur" }],
+        captcha: [{ validator: validataCaptcha, trigger: "blur" }],
       },
     };
   },
+  mounted() {
+    this.set_captcha();
+  },
   methods: {
+    // 刷新验证码
+    refreshCaptcha() {
+      this.set_captcha();
+    },
+    // 设置验证码
+    set_captcha() {
+      getCaptcha().then((res) => {
+        this.captchaSvg = res.data.img;
+      });
+    },
     ...mapMutations(["SET_USERINFO"]),
     submitForm(formName) {
       //validate一个方法
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           //本地效验通过发送登录请求
           // 通过打开加载
+          // 先验证验证码
+          let verifyRes = await verifyCaptcha(this.loginForm.captcha);
+          console.log(verifyRes);
+          if (!verifyRes.data.state) {
+            this.$message.error("请重新输入验证码");
+            // return
+          } else {
+            this.$router.push("/");
+          }
           const loading = this.$loading({
             lock: true,
             text: "主人，拼命加载中",
@@ -115,20 +164,18 @@ export default {
             .then((res) => {
               loading.close();
               if (res.data.state) {
-                this.$message.success("登录成功")
+                this.$message.success("登录成功");
                 // res.data.state=true时登录成功
                 // 2登录通过后，将后端返回的token存到本地,登录成功后跳转到主页
                 localStorage.setItem("simon", res.data.token);
                 localStorage.setItem("song", JSON.stringify(res.data.userInfo));
-               
-               
-               // 设置更改vuexstate["userInfo"]的值res.data.userInfo=payload
-                this.SET_USERINFO(res.data.userInfo)
 
-                this.$router.push("/Welcome")
-                
+                // 设置更改vuexstate["userInfo"]的值res.data.userInfo=payload
+                this.SET_USERINFO(res.data.userInfo);
+
+                this.$router.push("/Welcome");
               } else {
-                 this.$message.error('您登录的账号或者密码不正确，请重新登录');
+                this.$message.error("您登录的账号或者密码不正确，请重新登录");
               }
             })
             .catch((err) => {
@@ -144,6 +191,13 @@ export default {
 };
 </script>
 <style lang="less" >
+.captcha-svg {
+  height: 44px;
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
 /*整体表单样式 */
 .el-form {
   width: 400px;
@@ -207,7 +261,5 @@ export default {
   opacity: 0.7;
   background-position: 60% 65%;
 }
-//  .el-form.demo-loginForm {
-//     position: absolute;
-//   }
+
 </style>

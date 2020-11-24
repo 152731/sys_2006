@@ -32,8 +32,14 @@ export const addStudentList = obj => axios.post('students/addstu', obj)
 // 修改学员信息
 export const updateStudentList = obj => axios.post('/students/updatestu', obj)
 
+// 获取验证码
+
+export const getCaptcha = () => axios.get("/users/getCaptcha")
+
+// 刷新验证码
+export const refreshCaptcha = () => axios.get("/users/refreshCaptcha")
+// 效验验证码
+export const verifyCaptcha = (captcha) => axios.get(`/users/verifyCaptcha?captcha=${captcha}`)
 
 
-
-// 练习
-export const getClassList = () => axios.get('/students/getclasses')
+// 头像上传

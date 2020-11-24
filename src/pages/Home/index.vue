@@ -2,7 +2,7 @@
   <div class="home">
     <!-- 侧边栏 -->
         <el-container>
-           <el-aside width="200">
+           <el-aside width="200"  style="backgrounad=red">
             <el-menu  :default-active="$route.path"
             class="el-menu-vertical-demo" 
             :router="true"
@@ -10,11 +10,7 @@
            <qf-sub-menu :sideMenu="menuList" ></qf-sub-menu>
          
     </el-menu>
-
-    
     </el-aside>
-
-
 <el-container>
         <!-- 顶部栏 -->
         <el-header>
@@ -122,6 +118,7 @@ vertical-align: middle;
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+  background-color: gold;
 }
 .el-header,
 .el-footer {
@@ -165,6 +162,7 @@ vertical-align: middle;
   color: #333;
   text-align: center;
   line-height: 200px;
+  background: dodgerblue;
 }
 
 .el-main {
@@ -187,6 +185,7 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
+  background: green;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
